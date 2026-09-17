@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@import "./styles/print.css";
+
+@layer base {
+  :root {
+    --color-ivory: #FBF8F2;
+    --color-parchment: #F5EFE6;
+    --color-sandstone: #C89D66;
+    --color-sandstone-light: #DFCAAB;
+    --color-gold: #C5A059;
+    --color-gold-dark: #996515;
+    --color-gold-light: #E9D7A5;
+    --color-charcoal: #1F1813;
+    --color-deep: #16120E;
+    --color-stone: #2C221A;
+    --color-green: #2D4B39;
+    --color-green-dark: #1B3124;
+    --color-terracotta: #A64B2A;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-charcoal);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+    text-align: left;
+    border: none;
+  }
+
+  h1, h2, h3, .font-serif {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-display {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  }
+
+  .font-hindi {
+    font-family: 'Noto Serif Devanagari', 'Noto Sans Devanagari', serif;
+  }
+
+  .font-hindi-sans {
+    font-family: 'Noto Sans Devanagari', sans-serif;
+  }
+}
+
+/* Custom Heritage Utility Classes */
+.bg-heritage-ivory { background-color: #FBF8F2; }
+.bg-heritage-parchment { background-color: #F5EFE6; }
+.bg-heritage-parchment-dark { background-color: #ECE2D4; }
+.bg-heritage-charcoal { background-color: #1F1813; }
+.bg-heritage-deep { background-color: #16120E; }
+.bg-heritage-stone { background-color: #2C221A; }
+.bg-heritage-sandstone { background-color: #C89D66; }
+.bg-heritage-gold { background-color: #C5A059; }
+.bg-heritage-green { background-color: #2D4B39; }
+
+.text-heritage-gold { color: #C5A059; }
+.text-heritage-gold-light { color: #E9D7A5; }
+.text-heritage-gold-dark { color: #996515; }
+.text-heritage-charcoal { color: #1F1813; }
+.text-heritage-sandstone { color: #C89D66; }
+.text-heritage-sandstone-light { color: #DFCAAB; }
+.text-heritage-green { color: #2D4B39; }
+.text-heritage-terracotta { color: #A64B2A; }
+
+.border-heritage-gold { border-color: #C5A059; }
+.border-heritage-gold-subtle { border-color: rgba(197, 160, 89, 0.25); }
+.border-heritage-sandstone { border-color: #C89D66; }
+.border-heritage-sandstone-subtle { border-color: rgba(200, 157, 102, 0.25); }
+.border-heritage-border { border-color: rgba(44, 34, 26, 0.12); }
+.border-heritage-border-dark { border-color: rgba(197, 160, 89, 0.2); }
+
+/* Indian Arch and Jaali Accents */
+.jaali-pattern {
+  background-image: radial-gradient(#C5A059 0.75px, transparent 0.75px), radial-gradient(#C5A059 0.75px, #16120E 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.jaali-pattern-light {
+  background-image: radial-gradient(rgba(197, 160, 89, 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #E9D7A5 0%, #C5A059 50%, #996515 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border-gradient {
+  border-image: linear-gradient(to right, rgba(197, 160, 89, 0.1), rgba(197, 160, 89, 0.8), rgba(197, 160, 89, 0.1)) 1;
+}
+
+/* Custom Scrollbar for Heritage feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #16120E;
+}
+::-webkit-scrollbar-thumb {
+  background: #3A2F25;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C5A059;
+}
+
+/* Print styling for Preservation Record */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}

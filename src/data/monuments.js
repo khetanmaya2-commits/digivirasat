@@ -1,0 +1,115 @@
+/**
+ * DigiVirasat 2.0 - Heritage Monuments Registry
+ */
+
+export const MONUMENTS = [
+  {
+    id: 'amer-fort',
+    name: 'Amer Fort',
+    hindiName: 'आमेर किला',
+    location: 'Jaipur, Rajasthan',
+    state: 'Rajasthan',
+    era: '16th - 18th Century',
+    builtYear: '1592 CE',
+    builtBy: 'Raja Man Singh I & Mirza Raja Jai Singh',
+    architecturalStyle: 'Rajput - Mughal Syncretic',
+    unescoStatus: 'UNESCO World Heritage Site (2013)',
+    heroImage: '/heritage/amer-fort/hero.jpg',
+    thumbnail: '/heritage/amer-fort/hero.jpg',
+    tags: ['UNESCO World Heritage', 'Rajput Architecture', '18th Century', 'Hill Fort'],
+    description:
+      'Amer Fort, also known as Amber Fort, is a majestic fortress located in Amer, 11 km from Jaipur. Perched high upon Cheel ka Teela (Hill of Eagles) overlooking Maota Lake, it showcases an opulent fusion of Rajput defensive grandeur and Mughal marble ornamentation.',
+    hindiDescription:
+      'आमेर किला राजस्थान के जयपुर के पास एक पहाड़ी पर स्थित एक भव्य ऐतिहासिक दुर्ग है, जो अपनी कलात्मक हिंदू-मुगल स्थापत्य शैली, संगमरमर के शीश महल और भव्य प्राचीरों के लिए विश्व प्रसिद्ध है।',
+    pullQuote: 'A symbol of Rajput bravery, art and architectural genius.',
+    hindiQuote: 'राजपूत वीरता, कला और स्थापत्य प्रतिभा का अमर प्रतीक।',
+    elementCount: 5,
+    highlights: [
+      'Sheesh Mahal (Palace of Mirrors) with convex glass mosaics',
+      'Diwan-e-Aam (Hall of Public Audience) with double columned sandstone',
+      'Sukh Niwas with innovative water-cooled air ducting',
+      'Ganesh Pol gateway with vibrant natural vegetable dye frescoes',
+    ],
+  },
+  {
+    id: 'hawa-mahal',
+    name: 'Hawa Mahal',
+    hindiName: 'हवा महल',
+    location: 'Jaipur, Rajasthan',
+    state: 'Rajasthan',
+    era: '18th Century',
+    builtYear: '1799 CE',
+    builtBy: 'Maharaja Sawai Pratap Singh',
+    architecturalStyle: 'Rajput Architecture',
+    unescoStatus: 'Heritage Site',
+    heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
+    tags: ['Heritage Site', 'Rajput Architecture', '18th Century', 'Pink City'],
+    description:
+      'Constructed of red and pink sandstone, the five-story Palace of Winds features 953 intricately carved jharokhas designed to allow royal women to observe street festivals undetected while enjoying breezy cross-ventilation.',
+    hindiDescription:
+      'लाल और गुलाबी बलुआ पत्थर से निर्मित हवा महल में 953 नक्काशीदार खिड़कियां (झरोखे) हैं, जिन्हें राजसी महिलाओं के लिए महल के बाहर की हलचल देखने और प्राकृतिक ठंडक के लिए बनाया गया था।',
+    pullQuote: 'A honeycomb crown rising gracefully over the Pink City.',
+    hindiQuote: 'गुलाबी शहर के ऊपर शान से लहराता एक मधुमक्खी के छत्ते जैसा मुकुट।',
+    elementCount: 4,
+    highlights: [
+      '953 carved sandstone jharokhas with miniature casements',
+      'Venturi-effect natural cooling system',
+      'No foundation — built with a subtle backward incline',
+    ],
+  },
+  {
+    id: 'jantar-mantar',
+    name: 'Jantar Mantar',
+    hindiName: 'जंतर मंतर',
+    location: 'Jaipur, Rajasthan',
+    state: 'Rajasthan',
+    era: '18th Century',
+    builtYear: '1734 CE',
+    builtBy: 'Sawai Jai Singh II',
+    architecturalStyle: 'Astronomical Architecture',
+    unescoStatus: 'UNESCO World Heritage Site (2010)',
+    heroImage: 'https://images.unsplash.com/photo-1605649487212-47bdab064df8?auto=format&fit=crop&w=1600&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1605649487212-47bdab064df8?auto=format&fit=crop&w=800&q=80',
+    tags: ['Astronomical', '18th Century', 'UNESCO Site', 'Geometric'],
+    description:
+      'A collection of 19 monumental architectural astronomical instruments built to measure time, predict eclipses, and track celestial bodies with astonishing naked-eye mathematical precision.',
+    hindiDescription:
+      'सवाई जय सिंह द्वितीय द्वारा निर्मित उन्नीस खगोलीय उपकरणों का यह अनूठा समूह नंगी आंखों से समय और नक्षत्रों की गति मापने की अद्भुत वैज्ञानिक मिसाल है।',
+    pullQuote: 'Stone instruments that measure infinity.',
+    hindiQuote: 'पत्थरों में गढ़े गए यंत्र जो अनंत आकाश को मापते हैं।',
+    elementCount: 3,
+    highlights: [
+      'Vrihat Samrat Yantra — the world largest stone sundial (27m high)',
+      'Jai Prakash Yantra for tracking celestial coordinates',
+      'Ram Yantra for measuring altitude and azimuth',
+    ],
+  },
+  {
+    id: 'mehrangarh-fort',
+    name: 'Mehrangarh Fort',
+    hindiName: 'मेहरानगढ़ किला',
+    location: 'Jodhpur, Rajasthan',
+    state: 'Rajasthan',
+    era: '15th Century',
+    builtYear: '1459 CE',
+    builtBy: 'Rao Jodha',
+    architecturalStyle: 'Rajput Defensive & Palatial',
+    unescoStatus: 'Heritage Citadel',
+    heroImage: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=1600&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80',
+    tags: ['Rajput Architecture', '15th Century', 'Fortress', 'Sun Citadel'],
+    description:
+      'Rising 400 feet above the skyline of Jodhpur on a perpendicular cliff, Mehrangarh is one of India’s most formidable hill citadels, renowned for its burnished lattice carvings and battle-scarred gateways.',
+    hindiDescription:
+      'जोधपुर के ऊपर 400 फीट ऊंची खड़ी चट्टान पर स्थित मेहरानगढ़ भारत के सबसे भव्य और अभेद्य किलों में से एक है।',
+    pullQuote: 'A work of giants, of angels, and of magicians.',
+    hindiQuote: 'विशाल प्राचीरों और जादूई नक्काशी से बना अजेय दुर्ग।',
+    elementCount: 3,
+    highlights: [
+      'Moti Mahal (Pearl Palace) with iridescent glass ceiling',
+      'Phool Mahal (Flower Palace) with pure gold filigree work',
+      'Sheesh Mahal with large mirror pieces and painted woodwork',
+    ],
+  },
+];

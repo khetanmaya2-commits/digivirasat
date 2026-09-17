@@ -1,0 +1,85 @@
+/**
+ * DigiVirasat 2.0 - Dedicated Print Stylesheet for Digital Preservation Records
+ * Formats official preservation certificates cleanly on standard A4 paper.
+ */
+
+@media print {
+  /* Page configuration */
+  @page {
+    size: A4 portrait;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+
+  /* Reset body and background */
+  html, body {
+    background: #FFFFFF !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Elements to suppress completely in print */
+  .no-print,
+  nav,
+  header,
+  footer,
+  button,
+  .print-hide,
+  [role="dialog"] > div:first-child /* dark modal backdrop */ {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  /* Print Record Container: full width, unconstrained, crisp borders */
+  .print-record {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #FFFFFF !important;
+  }
+
+  /* Ensure card containers don't break across pages */
+  .print-card,
+  .print-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Image handling in print */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Force dark text and sharp contrasts */
+  h1, h2, h3, h4, p, span, td, th {
+    color: #111111 !important;
+    text-shadow: none !important;
+  }
+
+  /* Subtle border rendering for print */
+  .print-border {
+    border: 1pt solid #D4B996 !important;
+  }
+
+  /* Table styling */
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  th, td {
+    border: 0.5pt solid #CCCCCC !important;
+    padding: 6pt 8pt !important;
+  }
+}
