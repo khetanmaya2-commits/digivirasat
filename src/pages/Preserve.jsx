@@ -135,49 +135,53 @@ export default function Preserve() {
   };
 
   // Perform Analysis
-  const handleAnalyze = async () => {
-    if (!apiConnected) {
-      setErrorMessage(
-        'AWS API Gateway endpoint is not configured. Please set VITE_API_BASE_URL to trigger live AWS Rekognition analysis.'
+ const handleAnalyze = async () => {
+  if (!apiConnected) {
+    setErrorMessage(
+      'AWS API Gateway endpoint is not configured. Please set VITE_API_BASE_URL to trigger live AWS Rekognition analysis.'
+    );
+    return;
+  }
+
+  if (!uploadedS3Key) {
+    setErrorMessage(
+      'Please upload the current photograph to the archive first.'
+    );
+    return;
+  }
+
+  try {
+    setIsAnalyzing(true);
+    setErrorMessage(null);
+
+    console.log('ANALYZING CURRENT S3 KEY:', uploadedS3Key);
+
+    const result = await analyzeChange({
+      elementId: selectedElement.id,
+      monumentId: selectedElement.monumentId,
+      currentImageKey: uploadedS3Key,
+    });
+
+    console.log('AWS ANALYSIS RESPONSE:', result);
+
+    if (!result?.analysisId) {
+      throw new Error(
+        'AWS analysis completed but no analysisId was returned.'
       );
-      return;
     }
 
-    if (!uploadedS3Key) {
-      setErrorMessage('Please upload the current photograph to the archive first.');
-      return;
-    }
+    // Navigate using the real analysis ID returned by AWS
+    navigate(`/analysis/${result.analysisId}`);
 
-    try {
-      setIsAnalyzing(true);
-      setErrorMessage(null);
-
-      // Call AWS Lambda POST /analyze
-      const result = await analyzeChange({
-  elementId: selectedElement.id,
-  monumentId: selectedElement.monumentId,
-  recentImageKey: selectedElement.s3ReferenceKey,
-  currentImageKey: uploadedS3Key,
-});
-
-console.log('AWS ANALYSIS RESPONSE:', result);
-
-if (!result?.analysisId) {
-  throw new Error('AWS analysis completed but no analysisId was returned.');
-}
-
-navigate(`/analysis/${result.analysisId}`);
-
-      const targetAnalysisId = result.analysisId || 'DV-ANL-2026-0891';
-
-      // Navigate to analysis results upon completion
-      navigate(`/analysis/${targetAnalysisId}`);
-    } catch (err) {
-      console.error('Analysis error:', err);
-      setIsAnalyzing(false);
-      setErrorMessage(err.message || 'Analysis failed to complete. Please check connection and retry.');
-    }
-  };
+  } catch (err) {
+    console.error('Analysis error:', err);
+    setIsAnalyzing(false);
+    setErrorMessage(
+      err.message ||
+      'Analysis failed to complete. Please check connection and retry.'
+    );
+  }
+};
 
   // Fallback demo option when offline / unconfigured
   const handleDemoPreset = () => {

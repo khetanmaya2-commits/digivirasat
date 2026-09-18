@@ -17,7 +17,6 @@ import { apiRequest } from './apiClient';
 export async function analyzeChange({
   elementId = 'SM-01',
   monumentId = 'amer-fort',
-  recentImageKey = 'recent/amer-fort/SM-01-2016.jpg',
   currentImageKey,
 }) {
   if (!currentImageKey) {
@@ -31,7 +30,6 @@ export async function analyzeChange({
       body: JSON.stringify({
         elementId,
         monumentId,
-        recentImageKey,
         currentImageKey,
       }),
     },
@@ -145,10 +143,7 @@ export function normalizeAnalysisData(data) {
 
   // Reference image
   const referenceImageUrl =
-    data.referenceImageUrl ||
-    data.historicalImage ||
-    data.recentImage ||
-    '/heritage/amer-fort/sheesh-mahal/sm-01/historical/2016.jpg';
+   data.referenceImageUrl || null;
 
   // Current uploaded image
   //
@@ -156,13 +151,7 @@ export function normalizeAnalysisData(data) {
   // This is the public S3 URL format. If the bucket is private,
   // this URL will not display until the backend provides a presigned GET URL.
   const currentImageUrl =
-    data.currentImageUrl ||
-    data.currentImage ||
-    (
-      currentImageKey
-        ? `https://digivirasat-heritage-data-2026.s3.ap-south-1.amazonaws.com/${currentImageKey}`
-        : null
-    );
+  data.currentImageUrl || null;
 
   return {
     analysisId: data.analysisId || 'DV-ANL-UNKNOWN',
@@ -213,11 +202,11 @@ export function normalizeAnalysisData(data) {
 
     preservationInsight:
       data.preservationInsight ||
-      'Comparative visual feature analysis completed across historical baseline and current observation.',
+      '',
 
     recommendedAction:
       data.recommendedAction ||
-      'Capture a standardized follow-up photograph and perform a visual inspection of the heritage element.',
+      '',
 
     createdAt:
       data.createdAt ||

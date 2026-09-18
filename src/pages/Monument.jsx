@@ -14,16 +14,20 @@ export default function Monument() {
 
   const monument = MONUMENTS.find((m) => m.id === monumentId) || MONUMENTS[0];
   const elements = PRESERVATION_ELEMENTS.filter((e) => e.monumentId === monument.id);
-  const stories = HERITAGE_STORIES.amerFort;
+ const storyKey = monument.id === 'amer-fort'
+  ? 'amerFort'
+  : monument.id === 'hawa-mahal'
+    ? 'hawaMahal'
+    : null;
+
+const stories = storyKey ? HERITAGE_STORIES[storyKey] : null;
 
   const tabs = [
     { id: 'overview', label: 'Overview', hindi: 'अवलोकन' },
     { id: 'history', label: 'History', hindi: 'इतिहास' },
     { id: 'architecture', label: 'Architecture', hindi: 'स्थापत्य कला' },
     { id: 'elements', label: 'Preservation Elements', hindi: 'संरक्षण तत्व' },
-    { id: 'timeline', label: 'Digital Timeline', hindi: 'समयरेखा' },
   ];
-
   return (
     <div className="min-h-screen bg-[#FBF8F2] text-[#1F1813]">
       {/* ============================================================ */}
@@ -94,11 +98,10 @@ export default function Monument() {
                       setActiveTab(tab.id);
                     }
                   }}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
-                    isActive
+                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${isActive
                       ? 'bg-[#1F1813] text-[#FBF8F2] shadow-sm'
                       : 'text-[#5C5042] hover:bg-[#EAE1D3] hover:text-[#1F1813]'
-                  }`}
+                    }`}
                 >
                   <span>{tab.label}</span>
                 </button>
@@ -240,27 +243,60 @@ export default function Monument() {
         )}
 
         {/* ARCHITECTURE TAB */}
-        {activeTab === 'architecture' && (
-          <div className="space-y-8 max-w-4xl mx-auto">
-            <div className="text-center space-y-2">
-              <span className="text-xs uppercase tracking-widest text-[#996515] font-semibold">
+        {activeTab === 'architecture' && monument.architecture && (
+          <div className="space-y-16">
+
+            <section className="max-w-4xl mx-auto text-center space-y-5">
+
+              <span className="text-xs uppercase tracking-[0.25em] text-[#996515] font-semibold">
                 Architectural Mastery
               </span>
-              <h2 className="text-3xl font-serif font-bold text-[#1F1813]">Rajput & Mughal Syncretism</h2>
-              <p className="text-base font-hindi text-[#996515]">कलात्मक हिंदू-मुगल स्थापत्य शैली</p>
-            </div>
 
-            <OrnamentDivider />
+              <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#1F1813]">
+                {monument.architecture.title}
+              </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {monument.highlights.map((highlight, idx) => (
-                <div key={idx} className="p-6 rounded-2xl bg-[#F5EFE6] border border-[#C89D66]/30 space-y-2">
-                  <div className="w-8 h-8 rounded-lg bg-[#1F1813] text-[#E9D7A5] flex items-center justify-center font-mono text-xs font-bold">
-                    0{idx + 1}
-                  </div>
-                  <h4 className="text-lg font-serif font-bold text-[#1F1813]">{highlight}</h4>
-                </div>
-              ))}
+              <p className="text-lg font-hindi text-[#996515]">
+                {monument.architecture.hindiTitle}
+              </p>
+
+              <OrnamentDivider />
+
+              <p className="text-sm sm:text-base text-[#4A3F33] leading-8">
+                {monument.architecture.introduction}
+              </p>
+
+              <p className="text-sm font-hindi text-[#7D5220] leading-7">
+                {monument.architecture.hindiIntroduction}
+              </p>
+
+            </section>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+             {monument.architecture.atAGlance.map((item, idx) => (
+    <div
+      key={idx}
+      className="group p-6 rounded-2xl bg-[#F5EFE6] border border-[#C89D66]/30 hover:-translate-y-1 hover:shadow-md transition-all duration-300"
+    >
+
+      <div className="w-11 h-11 rounded-xl bg-[#1F1813] text-[#E9D7A5] flex items-center justify-center mb-5">
+        {String(idx + 1).padStart(2, '0')}
+      </div>
+
+      <p className="text-[10px] uppercase tracking-[0.18em] text-[#996515] font-semibold">
+        {item.category}
+      </p>
+
+      <h4 className="text-xl font-serif font-bold text-[#1F1813] mt-1">
+        {item.title}
+      </h4>
+
+      <p className="text-sm text-[#5C5042] leading-6 mt-3">
+        {item.description}
+      </p>
+
+    </div>
+  ))}
             </div>
           </div>
         )}

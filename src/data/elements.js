@@ -5,13 +5,13 @@
 export const PRESERVATION_ELEMENTS = [
   {
     id: 'SM-01',
-    name: 'East Mirror Wall',
+    name: 'Sheesh Mahal',
     hindiName: 'पूर्वी शीशा दीवार',
     monumentId: 'amer-fort',
     monumentName: 'Amer Fort',
     chamber: 'Sheesh Mahal (Jai Mandir)',
     chamberHindi: 'शीश महल (जय मंदिर)',
-    location: 'East Gallery, Sheesh Mahal, Amer Fort, Jaipur',
+    location: 'East Galslery, Sheesh Mahal, Amer Fort, Jaipur',
     category: 'Glass Mosaic & Plasterwork',
     categoryHindi: 'कांच मोज़ेक और प्लास्टर नक्काशी',
     status: 'Monitoring',
@@ -37,40 +37,64 @@ export const PRESERVATION_ELEMENTS = [
       conservationBaseline: 'Standardized photometric reference survey in 2021 (AWS Baseline Benchmark)',
     },
   },
-  {
-    id: 'SM-02',
-    name: 'Central Mirror Ceiling',
-    hindiName: 'केंद्रीय शीशा छत',
-    monumentId: 'amer-fort',
-    monumentName: 'Amer Fort',
-    chamber: 'Sheesh Mahal (Jai Mandir)',
-    chamberHindi: 'शीश महल (जय मंदिर)',
-    location: 'Main Vaulted Dome, Sheesh Mahal, Amer Fort',
-    category: 'Vaulted Ceiling Mosaic',
-    categoryHindi: 'गुंबददार छत मोज़ेक',
-    status: 'Low Risk',
-    statusVariant: 'stable',
-    priorityScore: 28,
-    condition: 'Stable',
-    era: '17th Century',
-    architecturalPeriod: 'Mirza Raja Jai Singh I',
-    historicalImage: '/heritage/amer-fort/sheesh-mahal/sm-01/archive-reference.jpg',
-    currentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/historical/sheesh-mahal-2021.jpg',
-    archiveImage: '/heritage/amer-fort/sheesh-mahal/sm-01/archive-reference.jpg',
-    s3ReferenceKey: 'recent/amer-fort/SM-02-2016.jpg',
-    description:
-      'The ornate parabolic vaulted dome is studded with thousands of micro-mirrors arranged in concentric floral medallions, designed to capture morning and evening rays and disperse soft ambient luminance throughout the chamber.',
-    hindiDescription:
-      'शीश महल की केंद्रीय गुंबदनुमा छत हजारों छोटे-छोटे दर्पणों से सजी है जो पुष्प चक्रों में व्यवस्थित हैं और महल में प्राकृतिक प्रकाश को बिखेरते हैं।',
-    storyQuote: 'Look upward, and the vaulted heavens are brought within human touch.',
-    hindiStoryQuote: 'ऊपर देखें, तो लगता है जैसे तारों भरा आसमान धरती पर उतर आया हो।',
-    craftsmanshipDetails: {
-      technique: 'Curvilinear Mosaic Vaulting',
-      materials: 'Silver-backed curved glass tiles, natural gum binders',
-      vulnerabilities: 'Thermal expansion between lime mortar and glass edges',
-      conservationBaseline: 'Multi-spectral imagery archived in 2021',
-    },
+{
+  id: 'SM-02',
+
+  name: 'Ganesh Pol',
+  hindiName: 'गणेश पोल',
+
+  monumentId: 'amer-fort',
+  monumentName: 'Amer Fort',
+
+  chamber: 'Ganesh Pol',
+  chamberHindi: 'गणेश पोल',
+
+  location: 'Ganesh Pol Gateway, Amer Fort',
+
+  category: 'Decorative Gateway',
+  categoryHindi: 'सजावटी प्रवेश द्वार',
+
+  status: 'Stable',
+  statusVariant: 'stable',
+
+  priorityScore: 28,
+  condition: 'Stable',
+
+  era: '17th Century',
+  architecturalPeriod: 'Mirza Raja Jai Singh I',
+
+  historicalImage: '/heritage/amer-fort/ganesh-pol/ganeshpol-2010.jpg',
+  currentImage: '/heritage/amer-fort/ganesh-pol/ganesh-pol-2019.jpg',
+  archiveImage: '/heritage/amer-fort/ganesh-pol/ganeshpol-2010.jpg',
+
+  s3ReferenceKey: 'recent/amer-fort/SM-02-2019.jpg',
+
+  description:
+    'Ganesh Pol is the ornate ceremonial gateway of Amer Fort, distinguished by its richly decorated facade, arched entrance and traditional Rajput-Mughal decorative elements.',
+
+  hindiDescription:
+    'गणेश पोल आमेर किले का एक भव्य औपचारिक प्रवेश द्वार है, जो अपनी अलंकृत सजावट, मेहराबदार प्रवेश और राजपूत-मुगल स्थापत्य तत्वों के लिए प्रसिद्ध है।',
+
+  storyQuote:
+    'Pass through Ganesh Pol, where architecture turns an entrance into a ceremonial experience.',
+
+  hindiStoryQuote:
+    'गणेश पोल से गुजरते हुए एक साधारण प्रवेश द्वार भव्य स्थापत्य अनुभव में बदल जाता है।',
+
+  craftsmanshipDetails: {
+
+    technique: 'Decorative Fresco and Architectural Ornamentation',
+
+    materials: 'Sandstone, lime plaster and natural pigments',
+
+    vulnerabilities: 'Surface weathering, pigment fading, moisture exposure and plaster deterioration',
+
+    conservationBaseline: 'Historical reference imagery archived for comparative monitoring',
+
   },
+},
+
+
   {
     id: 'SM-03',
     name: 'Decorative Arch',

@@ -89,7 +89,6 @@ export default function VisualTimeline({ elementId = 'SM-01' }) {
       const analysisResult = await analyzeChange({
         elementId: elementId,
         monumentId: referenceData.monumentId,
-        recentImageKey: referenceData.referenceS3Key,
         currentImageKey: presign.key,
       });
 

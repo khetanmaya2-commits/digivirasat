@@ -25,6 +25,29 @@ export const HERITAGE_STORIES = {
       },
     ],
   },
+
+  hawaMahal: {
+  title: 'The Palace of Winds & The Royal City of Jaipur',
+  hindiTitle: 'हवा महल और जयपुर की राजसी विरासत',
+  subtitle: 'A delicate sandstone façade shaped by royal life, light and air',
+  sections: [
+    {
+      heading: 'A Landmark of the Pink City',
+      hindiHeading: 'गुलाबी शहर की पहचान',
+      body: 'Built in 1799 during the reign of Maharaja Sawai Pratap Singh, Hawa Mahal became one of Jaipur’s most recognizable architectural landmarks. Designed by Lal Chand Ustad, its distinctive five-storey façade rises like a finely carved screen above the streets of the old city. Constructed primarily from red and pink sandstone, the structure forms part of the City Palace complex and reflects the artistic character of late eighteenth-century Jaipur.',
+    },
+    {
+      heading: 'The Architecture of Air and Light',
+      hindiHeading: 'हवा और प्रकाश का स्थापत्य',
+      body: 'The palace is renowned for its numerous small jharokhas, or projecting windows, arranged across its honeycomb-like façade. Their perforated screens allowed air to circulate through the structure while filtering intense sunlight. This relationship between architecture, climate and daily life demonstrates how traditional building techniques could create naturally ventilated spaces in the hot environment of Rajasthan.',
+    },
+    {
+      heading: 'The Royal View from Behind the Jharokhas',
+      hindiHeading: 'झरोखों के पीछे से राजसी दृश्य',
+      body: 'The jharokhas also served an important social purpose. Royal women could observe processions, festivals and everyday activity in the streets of Jaipur while remaining largely screened from public view. The façade therefore functioned not simply as decoration, but as a carefully designed threshold between the private world of the palace and the public life of the city.',
+    },
+  ],
+},
   sm01Story: {
     title: 'The Story Behind the Mirrors: East Mirror Wall (SM-01)',
     hindiTitle: 'दर्पणों के पीछे की कहानी: पूर्वी शीशा दीवार',

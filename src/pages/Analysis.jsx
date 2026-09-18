@@ -27,9 +27,9 @@ export default function Analysis() {
       if (apiConnected) {
         const data = await getAnalysis(analysisId);
         console.log('NORMALIZED ANALYSIS:', data);
-console.log('PRIORITY SCORE:', data?.priorityScore);
-console.log('CURRENT IMAGE URL:', data?.currentImageUrl);
-console.log('CURRENT IMAGE KEY:', data?.currentImageKey);
+        console.log('PRIORITY SCORE:', data?.priorityScore);
+        console.log('CURRENT IMAGE URL:', data?.currentImageUrl);
+        console.log('CURRENT IMAGE KEY:', data?.currentImageKey);
         setAnalysis(data);
       } else {
         // Structured baseline fallback when API Gateway is unconfigured
@@ -229,19 +229,19 @@ console.log('CURRENT IMAGE KEY:', data?.currentImageKey);
                 Visual Comparison Slider
               </h3>
               <p className="text-xs font-hindi text-[#996515]">
-                २०२१ संदर्भ छायाचित्र बनाम वर्तमान आगंतुक छायाचित्र
+                संदर्भ छायाचित्र बनाम वर्तमान आगंतुक छायाचित्र
               </p>
             </div>
             <div className="flex items-center gap-2 text-xs text-stone-500 font-mono">
               <span className="w-2 h-2 rounded-full bg-[#C5A059]" />
-              <span>Operational Pair: 2021 Reference &bull; Visitor Capture</span>
+              <span>Operational Pair: {analysis?.referenceYear || 'Reference'} • Current Capture</span>
             </div>
           </div>
 
           <ImageComparison
             beforeImage={analysis.referenceImageUrl}
             afterImage={analysis.currentImageUrl}
-            beforeLabel="2021 Reference (Operational Baseline)"
+            beforeLabel={`${analysis?.referenceYear || 'Reference'} Reference (Operational Baseline)`}
             afterLabel="Current Visitor Capture"
           />
         </div>

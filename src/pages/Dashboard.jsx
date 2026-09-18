@@ -40,6 +40,28 @@ export default function Dashboard() {
     ? analyses
     : analyses.filter(a => a.condition.toLowerCase() === activeFilter.toLowerCase());
 
+  const health = summary?.healthDistribution || {};
+
+  const totalHealthElements =
+    (health.stable || 0) +
+    (health.moderate || 0) +
+    (health.highPriority || 0);
+
+  const stablePercentage =
+    totalHealthElements > 0
+      ? Math.round((health.stable / totalHealthElements) * 100)
+      : 0;
+
+  const moderatePercentage =
+    totalHealthElements > 0
+      ? Math.round((health.moderate / totalHealthElements) * 100)
+      : 0;
+
+  const highPriorityPercentage =
+    totalHealthElements > 0
+      ? Math.round((health.highPriority / totalHealthElements) * 100)
+      : 0;
+
   return (
     <div className="min-h-screen bg-[#FBF8F2] text-[#1F1813] pt-28 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -92,9 +114,9 @@ export default function Dashboard() {
               <Layers size={16} className="text-[#996515]" />
             </div>
             <p className="text-3xl font-serif font-bold text-[#1F1813] mt-2">
-              {summary?.totalElements || 5}
+              {summary?.totalElements ?? 0}
             </p>
-            <p className="text-[11px] text-[#7D6E5D] mt-1">4 Active in Sheesh Mahal</p>
+            <p className="text-[11px] text-[#7D6E5D] mt-1">Live Heritage elements</p>
           </div>
 
           <div className="p-5 rounded-2xl bg-[#F5EFE6] border border-[#C89D66]/30 shadow-sm">
@@ -103,18 +125,18 @@ export default function Dashboard() {
               <Database size={16} className="text-[#996515]" />
             </div>
             <p className="text-3xl font-serif font-bold text-[#1F1813] mt-2">
-              {summary?.totalAnalyses || 18}
+              {summary?.totalAnalyses ?? 0}
             </p>
-            <p className="text-[11px] text-[#7D6E5D] mt-1">DynamoDB Logged</p>
+            <p className="text-[11px] text-[#7D6E5D] mt-1">Live DynamoDB records</p>
           </div>
 
           <div className="p-5 rounded-2xl bg-[#F5EFE6] border border-[#C89D66]/30 shadow-sm">
             <div className="flex items-center justify-between text-xs font-medium text-stone-500 uppercase">
-              <span>Field Follow-ups</span>
+              <span>Moderate Attention</span>
               <Activity size={16} className="text-[#996515]" />
             </div>
             <p className="text-3xl font-serif font-bold text-[#1F1813] mt-2">
-              12
+              {summary?.healthDistribution?.moderate ?? 0}
             </p>
             <p className="text-[11px] text-[#7D6E5D] mt-1">Inspection Schedules</p>
           </div>
@@ -125,9 +147,9 @@ export default function Dashboard() {
               <AlertTriangle size={16} className="text-amber-400" />
             </div>
             <p className="text-3xl font-serif font-bold text-[#E9D7A5] mt-2">
-              03
+              {summary?.activeAlerts ?? 0}
             </p>
-            <p className="text-[11px] text-stone-300 mt-1">Requiring Ground Verification</p>
+            <p className="text-[11px] text-stone-300 mt-1">Latest high-priority status</p>
           </div>
         </div>
 
@@ -148,7 +170,7 @@ export default function Dashboard() {
                 <h3 className="text-xl font-serif font-bold text-[#1F1813]">
                   Recent Preservation Analyses
                 </h3>
-                <p className="text-xs font-hindi text-[#996515]">हाल के संरक्षण विश्लेषण (2021 संदर्भ बनाम आगंतुक अवलोकन)</p>
+                <p className="text-xs font-hindi text-[#996515]">हाल के संरक्षण विश्लेषण (संदर्भ छायाचित्र बनाम आगंतुक अवलोकन)</p>
               </div>
 
               {/* Filter Pills */}
@@ -158,11 +180,10 @@ export default function Dashboard() {
                     key={f}
                     type="button"
                     onClick={() => setActiveFilter(f)}
-                    className={`px-3 py-1 rounded-full font-medium transition-colors cursor-pointer ${
-                      activeFilter === f
-                        ? 'bg-[#1F1813] text-white'
-                        : 'bg-[#F5EFE6] text-stone-600 hover:bg-[#EAE1D3]'
-                    }`}
+                    className={`px-3 py-1 rounded-full font-medium transition-colors cursor-pointer ${activeFilter === f
+                      ? 'bg-[#1F1813] text-white'
+                      : 'bg-[#F5EFE6] text-stone-600 hover:bg-[#EAE1D3]'
+                      }`}
                   >
                     {f}
                   </button>
@@ -189,10 +210,12 @@ export default function Dashboard() {
                     <tr key={record.analysisId} className="hover:bg-[#FBF8F2] transition-colors">
                       <td className="py-3 px-4 font-medium text-[#1F1813]">
                         <span className="font-mono text-[11px] font-bold block text-[#996515]">{record.elementId}</span>
-                        <span>{record.elementName}</span>
+                        <span> {PRESERVATION_ELEMENTS.find(
+                          (element) => element.id === record.elementId
+                        )?.name || record.elementId}</span>
                       </td>
                       <td className="py-3 px-4 text-[11px] font-mono text-stone-600">
-                        <span className="text-[#996515] font-semibold">2021 Ref</span> vs <span className="text-amber-800 font-semibold">Visitor</span>
+                        <span className="text-[#996515] font-semibold"> {record.referenceYear || 'Reference'} Ref</span> vs <span className="text-amber-800 font-semibold">Current Capture</span>
                       </td>
                       <td className="py-3 px-4">
                         <StatusBadge status={record.condition} />
@@ -204,7 +227,13 @@ export default function Dashboard() {
                         {record.visualVariation}%
                       </td>
                       <td className="py-3 px-4 text-stone-500 whitespace-nowrap">
-                        {record.date}
+                        {record.date
+                          ? new Date(record.date).toLocaleDateString('en-IN', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                          })
+                          : '—'}
                       </td>
                       <td className="py-3 px-4 text-right">
                         <Link
@@ -236,10 +265,10 @@ export default function Dashboard() {
                     <span className="w-2.5 h-2.5 rounded-full bg-[#2D4B39]" />
                     <span>Stable Condition</span>
                   </span>
-                  <span className="font-bold">3 Elements</span>
+                  <span className="font-bold">{summary?.healthDistribution?.stable ?? 0} Elements</span>
                 </div>
                 <div className="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
-                  <div className="bg-[#2D4B39] h-2 rounded-full" style={{ width: '60%' }} />
+                  <div className="bg-[#2D4B39] h-2 rounded-full" style={{ width: `${stablePercentage}%` }} />
                 </div>
 
                 <div className="flex items-center justify-between text-xs pt-2">
@@ -247,10 +276,10 @@ export default function Dashboard() {
                     <span className="w-2.5 h-2.5 rounded-full bg-[#C5A059]" />
                     <span>Moderate Attention</span>
                   </span>
-                  <span className="font-bold">1 Element (SM-01)</span>
+                  <span className="font-bold"> {summary?.healthDistribution?.moderate ?? 0} Elements</span>
                 </div>
                 <div className="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
-                  <div className="bg-[#C5A059] h-2 rounded-full" style={{ width: '20%' }} />
+                  <div className="bg-[#C5A059] h-2 rounded-full" style={{ width: `${moderatePercentage}%` }} />
                 </div>
 
                 <div className="flex items-center justify-between text-xs pt-2">
@@ -258,10 +287,10 @@ export default function Dashboard() {
                     <span className="w-2.5 h-2.5 rounded-full bg-[#A64B2A]" />
                     <span>High Priority (SM-03)</span>
                   </span>
-                  <span className="font-bold">1 Element</span>
+                  <span className="font-bold"> {summary?.healthDistribution?.highPriority ?? 0} Elements</span>
                 </div>
                 <div className="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
-                  <div className="bg-[#A64B2A] h-2 rounded-full" style={{ width: '20%' }} />
+                  <div className="bg-[#A64B2A] h-2 rounded-full" style={{ width: `${highPriorityPercentage}%` }} />
                 </div>
               </div>
             </div>
@@ -270,10 +299,10 @@ export default function Dashboard() {
             <div className="p-6 rounded-2xl bg-[#1F1813] text-white border border-[#C5A059]/40 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs uppercase tracking-widest text-[#E9D7A5] font-mono">Primary Demo</span>
-                <span className="px-2 py-0.5 rounded bg-[#C5A059]/20 text-[#E9D7A5] text-[10px]">2021 Reference Active</span>
+                <span className="px-2 py-0.5 rounded bg-[#C5A059]/20 text-[#E9D7A5] text-[10px]">2016 Reference Active</span>
               </div>
               <h4 className="text-lg font-serif font-bold text-white">East Mirror Wall (SM-01)</h4>
-              <p className="text-xs text-stone-300">Sheesh Mahal &bull; 1950 &bull; 2009 &bull; 2021 Baseline</p>
+              <p className="text-xs text-stone-300">Sheesh Mahal &bull; 1950 &bull; 2009 &bull; 2016 Baseline</p>
               <div className="pt-2 flex items-center gap-2">
                 <Link
                   to="/monument/amer-fort/element/SM-01"

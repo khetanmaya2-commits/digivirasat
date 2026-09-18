@@ -42,77 +42,34 @@ export async function getDashboardSummary() {
 export async function getDashboardAnalyses() {
   if (isApiConfigured()) {
     try {
-      // Future API Gateway route
-      const response = await apiRequest('/dashboard/analyses', { method: 'GET' }, 5000);
-      if (Array.isArray(response)) {
-        return { isLive: true, records: response };
+      const response = await apiRequest(
+        '/dashboard/analyses',
+        { method: 'GET' },
+        5000
+      );
+
+      if (response && Array.isArray(response.records)) {
+        return {
+          isLive: response.isLive !== false,
+          source:
+            response.source ||
+            'DigiVirasatAnalyses DynamoDB',
+          records: response.records,
+        };
       }
-    } catch {
-      // Fallback to baseline observations
+    } catch (error) {
+      console.error(
+        'Failed to load live dashboard analyses:',
+        error
+      );
     }
   }
 
-  // Baseline records for the Amer Fort & Sheesh Mahal demo
   return {
     isLive: false,
     source: 'Conservation Archive & Baseline Observation Log',
     records: [
-      {
-        analysisId: 'DV-ANL-2026-0891',
-        elementId: 'SM-01',
-        elementName: 'East Mirror Wall',
-        elementHindi: 'पूर्वी शीशा दीवार',
-        monumentName: 'Amer Fort, Jaipur',
-        condition: 'Moderate',
-        priorityScore: 52,
-        visualVariation: 53,
-        date: '17 Sep 2026',
-        status: 'Needs Field Verification',
-        recentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/historical/2016.jpg',
-        currentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/baseline-2026.jpg',
-      },
-      {
-        analysisId: 'DV-ANL-2026-0842',
-        elementId: 'SM-02',
-        elementName: 'Central Mirror Ceiling',
-        elementHindi: 'केंद्रीय शीशा छत',
-        monumentName: 'Amer Fort, Jaipur',
-        condition: 'Stable',
-        priorityScore: 28,
-        visualVariation: 15,
-        date: '12 Sep 2026',
-        status: 'Archived Baseline',
-        recentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/archive-reference.jpg',
-        currentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/historical/sheesh-mahal-2021.jpg',
-      },
-      {
-        analysisId: 'DV-ANL-2026-0799',
-        elementId: 'SM-03',
-        elementName: 'Decorative Arch',
-        elementHindi: 'सजावटी मेहराब',
-        monumentName: 'Amer Fort, Jaipur',
-        condition: 'High Priority',
-        priorityScore: 78,
-        visualVariation: 71,
-        date: '04 Sep 2026',
-        status: 'Site Inspection Queued',
-        recentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/historical/sheesh-mahal-2000.jpg',
-        currentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/historical/amer-2018.jpg',
-      },
-      {
-        analysisId: 'DV-ANL-2026-0715',
-        elementId: 'SM-04',
-        elementName: 'Marble Panel',
-        elementHindi: 'संगमरमर पैनल',
-        monumentName: 'Amer Fort, Jaipur',
-        condition: 'Stable',
-        priorityScore: 32,
-        visualVariation: 19,
-        date: '18 Aug 2026',
-        status: 'Verified Stable',
-        recentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/timeline-2009.jpg',
-        currentImage: '/heritage/amer-fort/sheesh-mahal/sm-01/timeline-2020.jpg',
-      },
+      // keep your existing static records here
     ],
   };
 }

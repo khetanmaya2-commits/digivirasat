@@ -30,6 +30,110 @@ export const MONUMENTS = [
       'Sukh Niwas with innovative water-cooled air ducting',
       'Ganesh Pol gateway with vibrant natural vegetable dye frescoes',
     ],
+    architecture: {
+  title: 'Rajput & Mughal Syncretism',
+  hindiTitle: 'राजपूत और मुगल स्थापत्य का संगम',
+
+  introduction:
+    'Amer Fort is a layered palace complex where courtyards, gateways, audience halls and royal spaces come together to create a carefully organized architectural experience.',
+
+  hindiIntroduction:
+    'आमेर किले की स्थापत्य संरचना में प्रांगणों, भव्य द्वारों, सभा कक्षों और राजसी आवासों का सुंदर संयोजन दिखाई देता है।',
+
+  atAGlance: [
+    {
+      title: 'Courtyards',
+      category: 'Spatial Organization',
+      description:
+        'Open courtyards organize movement and connect different architectural and functional zones.',
+    },
+    {
+      title: 'Stone & Marble',
+      category: 'Material Language',
+      description:
+        'Stone, marble, plaster and decorative surfaces contribute to the palace’s architectural character.',
+    },
+    {
+      title: 'Ornamentation',
+      category: 'Decorative Arts',
+      description:
+        'Reflective elements, carved details and painted surfaces create visual richness.',
+    },
+    {
+      title: 'Rajput & Mughal',
+      category: 'Cultural Influence',
+      description:
+        'Regional Rajput traditions appear alongside architectural vocabulary associated with Mughal court culture.',
+    },
+  ],
+
+  spaces: [
+    {
+      title: 'Sheesh Mahal',
+      hindiTitle: 'शीश महल',
+      category: 'Decorative Interior',
+      elementId: 'SM-01',
+      image:
+        '/heritage/amer-fort/sheesh-mahal/sm-01/historical/sheesh-mahal-2021.jpg',
+      description:
+        'The Palace of Mirrors is known for its reflective glass ornamentation and richly decorated interior.',
+    },
+
+    {
+      title: 'Diwan-i-Aam',
+      hindiTitle: 'दीवान-ए-आम',
+      category: 'Courtly Architecture',
+      image:
+        '/heritage/amer-fort/diwan-i-aam.jpg',
+      description:
+        'The Hall of Public Audience represents the formal public-facing side of palace life.',
+    },
+
+    {
+      title: 'Sukh Niwas',
+      hindiTitle: 'सुख निवास',
+      category: 'Environmental Architecture',
+      image:
+        '/heritage/amer-fort/sukh-niwas.jpg',
+      description:
+        'Sukh Niwas demonstrates the relationship between palace architecture, water and interior comfort.',
+    },
+
+    {
+      title: 'Ganesh Pol',
+      hindiTitle: 'गणेश पोल',
+      category: 'Gateway Architecture',
+      elementId: 'SM-02',
+      image:
+        '/heritage/amer-fort/ganesh-pol/ganeshpol-2019.jpg',
+      description:
+        'Ganesh Pol is an important gateway marking a transition between architectural spaces within the palace complex.',
+    },
+  ],
+
+  vocabulary: [
+    {
+      title: 'Gateways',
+      description:
+        'Gateways define movement and transitions between different areas of the palace.',
+    },
+    {
+      title: 'Courtyards',
+      description:
+        'Open spaces organize circulation and connect architectural zones.',
+    },
+    {
+      title: 'Ornament',
+      description:
+        'Decorative surfaces, reflective details and carved elements enrich the architecture.',
+    },
+    {
+      title: 'Materials',
+      description:
+        'Stone, marble, plaster and decorative surfaces form an important part of the architectural character.',
+    },
+  ],
+},
   },
   {
     id: 'hawa-mahal',
@@ -42,8 +146,8 @@ export const MONUMENTS = [
     builtBy: 'Maharaja Sawai Pratap Singh',
     architecturalStyle: 'Rajput Architecture',
     unescoStatus: 'Heritage Site',
-    heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
+    heroImage: '/heritage/hawa-mahal/hawa-mahal.jpg',
+    thumbnail: '/heritage/hawa-mahal/hawa-mahal.jpg',
     tags: ['Heritage Site', 'Rajput Architecture', '18th Century', 'Pink City'],
     description:
       'Constructed of red and pink sandstone, the five-story Palace of Winds features 953 intricately carved jharokhas designed to allow royal women to observe street festivals undetected while enjoying breezy cross-ventilation.',
@@ -57,7 +161,91 @@ export const MONUMENTS = [
       'Venturi-effect natural cooling system',
       'No foundation — built with a subtle backward incline',
     ],
+
+  architecture: {
+    title: 'Architecture of Air and Light',
+    hindiTitle: 'हवा, प्रकाश और झरोखों की स्थापत्य कला',
+
+    introduction:
+      'Hawa Mahal is renowned for its distinctive façade, extensive jharokhas and architectural design that creates a strong relationship between the building and the movement of air and light.',
+
+    hindiIntroduction:
+      'हवा महल अपने विशिष्ट अग्रभाग, अनेक झरोखों और हवा तथा प्रकाश के साथ स्थापत्य संबंध के लिए प्रसिद्ध है।',
+
+    atAGlance: [
+      {
+        title: '953 Jharokhas',
+        category: 'Façade',
+        description:
+          'The honeycomb-like façade is characterized by numerous small windows and projecting jharokhas.',
+      },
+      {
+        title: 'Five Storeys',
+        category: 'Vertical Design',
+        description:
+          'The palace rises through five storeys with a distinctive pyramidal façade.',
+      },
+      {
+        title: 'Red & Pink Sandstone',
+        category: 'Materials',
+        description:
+          'The structure uses the characteristic sandstone palette associated with Jaipur architecture.',
+      },
+      {
+        title: 'Air & Light',
+        category: 'Environmental Design',
+        description:
+          'Its numerous openings create a distinctive relationship between the interior spaces, air movement and daylight.',
+      },
+    ],
+
+    spaces: [
+      {
+        title: 'Jharokha Façade',
+        hindiTitle: 'झरोखा अग्रभाग',
+        category: 'Architectural Feature',
+        image: '/heritage/hawa-mahal/jharokhas.jpg',
+        description:
+          'The elaborate façade of projecting windows gives Hawa Mahal its characteristic honeycomb appearance.',
+      },
+
+      {
+        title: 'Interior Passages',
+        hindiTitle: 'आंतरिक मार्ग',
+        category: 'Spatial Design',
+        image: '/heritage/hawa-mahal/interior.jpg',
+        description:
+          'The interior circulation connects the building’s different levels and viewing spaces.',
+      },
+    ],
+
+    vocabulary: [
+      {
+        title: 'Jharokhas',
+        description:
+          'Projecting windows are a defining visual feature of the palace façade.',
+      },
+      {
+        title: 'Façade',
+        description:
+          'The highly articulated front elevation creates the building’s iconic appearance.',
+      },
+      {
+        title: 'Openings',
+        description:
+          'Numerous openings shape the relationship between air, daylight and interior space.',
+      },
+      {
+        title: 'Verticality',
+        description:
+          'The five-storey composition creates a strong upward architectural rhythm.',
+      },
+    ],
   },
+},
+     
+ 
+
   {
     id: 'jantar-mantar',
     name: 'Jantar Mantar',
