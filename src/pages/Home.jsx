@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect,useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Eye, ShieldCheck, Users, Sparkles, ChevronDown, Landmark, Clock, Database, Layers } from 'lucide-react';
 import MonumentCard from '../components/heritage/MonumentCard';
@@ -10,47 +10,107 @@ export default function Home() {
   const featuredMonument = MONUMENTS[0]; // Amer Fort
   const secondaryMonuments = MONUMENTS.slice(1, 4);
 
+  const heroSlides = [
+    {
+      image: '/heritage/amer-fort/hero.jpg',
+      title: 'Amer Fort',
+      hindiTitle: 'आमेर किला',
+    },
+    {
+      image: '/heritage/hawa-mahal/hawa-mahal2.jpg',
+      title: 'Hawa Mahal',
+      hindiTitle: 'हवा महल',
+    },
+
+    {
+    image: '/heritage/jal-mahal/jal-mahal.jpg',
+    title: 'Jal Mahal',
+    hindiTitle: 'जल महल',
+  },
+     
+  {
+    image: '/heritage/kumbhalgarh/kumbhalgarh-fort.jpg',
+    title: 'Kumbhalgarh Fort',
+    hindiTitle: 'कुंभलगढ़ किला',
+  },
+  
+    {
+    image: '/heritage/jaisalmer/jaisalmer-fort.jpg',
+    title: 'Jaisalmer Fort',
+    hindiTitle: 'जैसलमेर किला',
+  },
+  ];
+  const [activeHero, setActiveHero] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveHero((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+   const nextSectionRef = useRef(null);
+
   return (
     <div className="min-h-screen bg-[#FBF8F2] text-[#1F1813]">
       {/* ============================================================ */}
       {/* CINEMATIC HERO SECTION                                       */}
       {/* ============================================================ */}
-      <section className="relative min-h-[92vh] sm:min-h-screen flex items-center justify-center overflow-hidden bg-[#16120E] text-white">
+      <section className="relative h-[112vh] min-h-[680px] flex items-center justify-center overflow-hidden bg-[#16120E] text-white">
         {/* Background Heritage Photo */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/heritage/amer-fort/hero.jpg"
-            alt="Amer Fort Amber Palace Rajasthan"
-            className="w-full h-full object-cover object-center scale-105 transition-transform duration-1000 ease-out brightness-75"
-          />
-          {/* Warm Dark Cinematic Overlay matching reference image */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#16120E] via-[#16120E]/60 to-black/40" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(197,160,89,0.15)_0%,_transparent_70%)]" />
-        </div>
+        {/* Cinematic Heritage Slider */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
 
+          {heroSlides.map((slide, index) => (
+            <img
+              key={slide.image}
+              src={slide.image}
+              alt={slide.title}
+              className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-[1800ms] ease-in-out ${activeHero === index
+                ? 'opacity-100'
+                : 'opacity-0'
+                }`}
+            />
+          ))}
+
+          {/* Cinematic dark overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#16120E] via-[#16120E]/60 to-black/40" />
+
+          {/* Warm heritage glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(197,160,89,0.15)_0%,_transparent_70%)]" />
+
+        </div>
         {/* Hero Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-24 pb-16 space-y-8">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20 pb-32 space-y-7">
           {/* Tagline Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1F1813]/80 backdrop-blur-md border border-[#C5A059]/40 text-[#E9D7A5] text-xs uppercase tracking-widest shadow-lg">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059] animate-ping" />
+          {/* <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1F1813]/80 backdrop-blur-md border border-[#C5A059]/40 text-[#E9D7A5] text-xs uppercase tracking-widest shadow-lg">
+            <span className="w-1.5 h-1.2 rounded-full bg-[#C5A059] animate-ping" />
             <span>Digital Heritage Preservation &bull; डिजिटल विरासत संरक्षण</span>
-          </div>
+          </div> */}
 
           {/* Headline and Hindi Title */}
           <div className="space-y-4">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-extrabold tracking-tight text-white drop-shadow-md">
-              Some stories are <br className="hidden sm:block" />
-              <span className="gold-gradient-text italic font-serif">written in stone.</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-extrabold tracking-tight text-white drop-shadow-md leading-[0.95]">
+              Preserve the past.
+              <br />
+              <span className="gold-gradient-text italic font-serif">
+                Document the present.
+              </span>
             </h1>
 
-            <p className="text-xl sm:text-2xl md:text-3xl font-hindi font-medium text-[#E9D7A5] tracking-wide">
-              &ldquo;कुछ कहानियाँ पत्थरों में लिखी होती हैं।&rdquo;
+            <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-stone-300 font-light leading-relaxed">
+              विरासत को संजोएँ। वर्तमान को दर्ज करें।
             </p>
+
+
           </div>
 
           {/* Supporting Paragraph */}
           <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-stone-300 font-light leading-relaxed">
-            DigiVirasat creates a living digital record of India&rsquo;s heritage by connecting historical context, current observations, and cloud-powered visual analysis.
+            DigiVirasat creates a living digital record of India's heritage by connecting
+            historical reference imagery with present-day observations and cloud-powered
+            visual analysis.
           </p>
 
           {/* CTA Buttons */}
@@ -93,17 +153,54 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-stone-400 flex flex-col items-center gap-1 text-xs opacity-70 hover:opacity-100 transition-opacity">
-          <span>Scroll down</span>
-          <ChevronDown size={14} className="animate-bounce text-[#C5A059]" />
+        {/* Heritage Slider Indicator */}
+        {/* Heritage Slider Indicator */}
+        <div className="absolute bottom-25 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#E9D7A5]/80">
+            {heroSlides[activeHero].title}
+          </span>
+
+          <div className="flex items-center gap-2">
+            {heroSlides.map((slide, index) => (
+              <button
+                key={slide.title}
+                type="button"
+                onClick={() => setActiveHero(index)}
+                aria-label={`View ${slide.title}`}
+                className={`h-1 rounded-full transition-all duration-500 ${activeHero === index
+                    ? 'w-10 bg-[#E9D7A5]'
+                    : 'w-2 bg-white/40 hover:bg-white/70'
+                  }`}
+              />
+            ))}
+          </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <button
+  type="button"
+  onClick={() =>
+    nextSectionRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+  className="absolute bottom-25 right-6 sm:right-10 z-40 flex items-center gap-2 text-stone-300 text-[10px] uppercase tracking-[0.2em] opacity-90 cursor-pointer hover:text-[#E9D7A5] transition-colors"
+  aria-label="Scroll to explore more"
+>
+  <span>Scroll</span>
+  <ChevronDown
+    size={14}
+    className="animate-bounce text-[#C5A059]"
+  />
+</button>
+
       </section>
 
       {/* ============================================================ */}
       {/* PHILOSOPHY SECTION: "Heritage is not static."                 */}
       {/* ============================================================ */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
+      <section ref={nextSectionRef} className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <HindiHeading
             badge="Living Heritage"

@@ -1,24 +1,28 @@
-# DigiVirasat S3
+# Amazon S3
 
-## Region
-
-ap-south-1
+DigiVirasat uses Amazon S3 for secure storage of heritage photographs and project assets.
 
 ## Bucket
 
-DigiVirasat heritage data bucket
+`digivirasat-heritage-data-2026`
 
-## Purpose
+## Main Folders
 
-Stores:
-- Historical heritage images
-- Recent reference images
-- Visitor uploads
-- Analysis results
-- Audio assets
+- `historical/` — historical heritage images
+- `recent/` — recent/reference images
+- `uploads/` — user observation uploads
+- `analysis/` — analysis-related objects
+- `audio/` — audio assets
+- `historical/temporal-evidence/` — chronological evidence images
 
 ## Security
 
-- Block Public Access enabled
 - Private bucket
-- Server-side encryption enabled
+- Block Public Access enabled
+- SSE-S3 encryption
+- No AWS credentials exposed to the frontend
+
+## Upload Flow
+
+```text
+React → API Gateway → Lambda → Presigned URL → S3

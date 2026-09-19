@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback,useEffect } from 'react';
 import { ArrowLeftRight, Eye, ShieldAlert } from 'lucide-react';
 
 /**
@@ -16,13 +16,28 @@ export default function ImageComparison({
   const [isDragging, setIsDragging] = useState(false);
   const [beforeError, setBeforeError] = useState(false);
   const [afterError, setAfterError] = useState(false);
+  useEffect(() => {
+  setBeforeError(false);
+}, [beforeImage]);
+
+useEffect(() => {
+  setAfterError(false);
+}, [afterImage]);
   const containerRef = useRef(null);
 
-  const fallbackBefore = '/heritage/amer-fort/sheesh-mahal/sm-01/historical/2016.jpg';
-  const fallbackAfter = '/heritage/amer-fort/sheesh-mahal/sm-01/baseline-2026.jpg';
+  const fallbackBefore =
+  '/images/sheesh-mahal/sheesh-mahal-2021.jpg';
 
-  const effectiveBefore = beforeError || !beforeImage ? fallbackBefore : beforeImage;
-  const effectiveAfter = afterError || !afterImage ? fallbackAfter : afterImage;
+const fallbackAfter =
+  '/images/sheesh-mahal/sheesh-mahal-2021.jpg';
+
+const effectiveBefore = beforeError
+  ? fallbackBefore
+  : beforeImage || fallbackBefore;
+
+const effectiveAfter = afterError
+  ? fallbackAfter
+  : afterImage || fallbackAfter;
 
   const handleMove = useCallback((clientX) => {
     if (!containerRef.current) return;

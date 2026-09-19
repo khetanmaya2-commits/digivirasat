@@ -48,9 +48,7 @@ export default function Navbar() {
               <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-[#E9D7A5] transition-colors">
                 DigiVirasat
               </span>
-              <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded bg-[#C5A059]/20 text-[#E9D7A5] border border-[#C5A059]/40">
-                2.0
-              </span>
+              
             </div>
             <p className="text-[10px] font-hindi text-[#C5A059] tracking-wider leading-none">
               डिजिटल विरासत संरक्षण

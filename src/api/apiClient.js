@@ -3,6 +3,8 @@
  * Manages base URL, headers, timeouts, and error handling for AWS API Gateway integration.
  */
 
+import { fetchAuthSession } from 'aws-amplify/auth';
+
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 export const isApiConfigured = () => {
@@ -21,7 +23,8 @@ export class ApiError extends Error {
 }
 
 /**
- * Standard fetch request handler with timeout and error translation
+ * Standard fetch request handler with timeout, Cognito authentication,
+ * and error translation.
  */
 export async function apiRequest(endpoint, options = {}, timeoutMs = 25000) {
   if (!isApiConfigured()) {
@@ -32,19 +35,46 @@ export async function apiRequest(endpoint, options = {}, timeoutMs = 25000) {
   }
 
   const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
   const defaultHeaders = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  };
+  Accept: 'application/json',
+};
+
+if (options.method && options.method.toUpperCase() !== 'GET') {
+  defaultHeaders['Content-Type'] = 'application/json';
+}
 
   try {
+    // Get the current Cognito authentication session.
+    // If the user is not logged in, this simply leaves the request unauthenticated.
+    let authHeaders = {};
+
+    try {
+      const session = await fetchAuthSession();
+
+      const jwt =
+        session.tokens?.idToken?.toString() ||
+        session.tokens?.accessToken?.toString();
+
+      if (jwt) {
+        authHeaders = {
+          Authorization: `Bearer ${jwt}`,
+        };
+      }
+    } catch (authError) {
+      // Public APIs should continue working even when there is no
+      // authenticated Cognito session.
+      console.log('No Cognito session available for API request.');
+    }
+
     const response = await fetch(url, {
       ...options,
       headers: {
         ...defaultHeaders,
+        ...authHeaders,
         ...options.headers,
       },
       signal: controller.signal,
@@ -52,27 +82,30 @@ export async function apiRequest(endpoint, options = {}, timeoutMs = 25000) {
 
     clearTimeout(timeoutId);
 
-    // Parse JSON if possible
-   // Parse JSON if possible, even when API Gateway returns text/plain
-let data = null;
-const contentType = response.headers.get('content-type');
+    // Parse JSON if possible, even when API Gateway returns text/plain.
+    let data = null;
 
-if (contentType && contentType.includes('application/json')) {
-  data = await response.json();
-} else {
-  const text = await response.text();
+    const contentType = response.headers.get('content-type');
 
-  try {
-    data = JSON.parse(text);
-  } catch {
-    data = text;
-  }
-}
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      const text = await response.text();
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = text;
+      }
+    }
 
     if (!response.ok) {
       const errorMessage =
-        (data && typeof data === 'object' && (data.message || data.error)) ||
+        (data &&
+          typeof data === 'object' &&
+          (data.message || data.error)) ||
         `Preservation service returned HTTP ${response.status}: ${response.statusText}`;
+
       throw new ApiError(errorMessage, response.status, data);
     }
 
@@ -92,7 +125,8 @@ if (contentType && contentType.includes('application/json')) {
     }
 
     throw new ApiError(
-      error.message || 'DigiVirasat could not connect to the preservation service. Please check your connection and try again.',
+      error.message ||
+        'DigiVirasat could not connect to the preservation service. Please check your connection and try again.',
       'NETWORK_ERROR',
       error
     );

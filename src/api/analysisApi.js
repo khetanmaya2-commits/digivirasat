@@ -18,6 +18,9 @@ export async function analyzeChange({
   elementId = 'SM-01',
   monumentId = 'amer-fort',
   currentImageKey,
+  observationType = 'Tourist',
+  observationNote = '',
+  captureMode = 'guided',
 }) {
   if (!currentImageKey) {
     throw new Error('Current image S3 key is required to initiate visual analysis.');
@@ -28,12 +31,63 @@ export async function analyzeChange({
     {
       method: 'POST',
       body: JSON.stringify({
-        elementId,
-        monumentId,
-        currentImageKey,
+       elementId,
+  monumentId,
+  currentImageKey,
+  observationType,
+  observationNote,
+  captureMode,
       }),
     },
     35000 // Allow up to 35 seconds for Rekognition & DynamoDB pipeline
+  );
+}
+
+export async function getTemporalEvidence(
+  monumentId = 'amer-fort',
+  scope = 'Sheesh Mahal'
+) {
+  const encodedScope = encodeURIComponent(scope);
+
+  return apiRequest(
+    `/evidence/${monumentId}/${encodedScope}`,
+    {
+      method: 'GET',
+    },
+    15000
+  );
+}
+
+/**
+ * Retrieve all temporal comparison analyses.
+ * Automatically reflects the latest available evidence year
+ * (2026 today, 2027/2028/etc. when new evidence is added).
+ */
+export async function getTemporalAnalyses() {
+  return apiRequest(
+    '/dashboard/temporal-analysis',
+    {
+      method: 'GET',
+    },
+    15000
+  );
+}
+
+export async function runTemporalAnalysis({
+  monumentId = 'amer-fort',
+  evidenceScope = 'Sheesh Mahal',
+} = {}) {
+  return apiRequest(
+    '/analyze',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        analysisType: 'TEMPORAL_COMPARISON',
+        monumentId,
+        evidenceScope,
+      }),
+    },
+    180000
   );
 }
 
@@ -221,3 +275,4 @@ export function normalizeAnalysisData(data) {
     currentImageUrl,
   };
 }
+

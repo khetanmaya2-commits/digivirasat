@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera, Upload, ArrowRight, Eye, Sparkles, Check, Clock, ChevronRight, HelpCircle, Layers, ArrowLeftRight } from 'lucide-react';
 import HistoricalStoryModal from './HistoricalStoryModal';
@@ -8,15 +8,122 @@ import OrnamentDivider from '../ui/OrnamentDivider';
 import { PRESERVATION_REFERENCES } from '../../data/preservationReferences';
 import { isApiConfigured } from '../../api/apiClient';
 import { getPresignedUploadUrl, uploadToS3 } from '../../api/uploadApi';
-import { analyzeChange } from '../../api/analysisApi';
+import { analyzeChange,getTemporalEvidence } from '../../api/analysisApi';
 
 export default function VisualTimeline({ elementId = 'SM-01' }) {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
-  const referenceData = PRESERVATION_REFERENCES[elementId] || PRESERVATION_REFERENCES['SM-01'];
-  const timelineItems = referenceData.timelineItems || [];
-  const referenceItem2021 = timelineItems.find((item) => item.year === 2021) || timelineItems[2];
+ const referenceData =
+  PRESERVATION_REFERENCES[elementId] ||
+  PRESERVATION_REFERENCES['SM-01'];
+
+const [timelineItems, setTimelineItems] = useState([]);
+const [temporalLoading, setTemporalLoading] = useState(true);
+const [temporalError, setTemporalError] = useState(null);
+
+const referenceItem2021 =
+  timelineItems.find((item) => Number(item.year) === 2021) ||
+  null;
+
+  useEffect(() => {
+  let cancelled = false;
+
+  async function loadTemporalEvidence() {
+    if (!isApiConfigured()) {
+      // Keep the existing static timeline as a fallback
+      setTimelineItems(referenceData.timelineItems || []);
+      setTemporalLoading(false);
+      return;
+    }
+
+    try {
+      setTemporalLoading(true);
+      setTemporalError(null);
+
+      const result = await getTemporalEvidence(
+        referenceData.monumentId || 'amer-fort',
+        'Sheesh Mahal'
+      );
+
+      if (cancelled) return;
+
+      if (!result?.success || !Array.isArray(result.evidence)) {
+        throw new Error('Temporal evidence could not be loaded.');
+      }
+
+      const mappedItems = result.evidence.map((evidence) => {
+        const isReference = Number(evidence.year) === 2021;
+        const isLatest = Number(evidence.year) === 2026;
+
+        return {
+          id: evidence.evidenceId,
+          year: evidence.year,
+          image: evidence.imageUrl,
+          title:
+            Number(evidence.year) === 2021
+              ? 'Recent Reference'
+              : Number(evidence.year) === 2026
+                ? 'Contemporary Evidence'
+                : 'Documented Interior',
+
+          hindiTitle:
+            Number(evidence.year) === 2021
+              ? 'हालिया संदर्भ'
+              : Number(evidence.year) === 2026
+                ? 'समकालीन प्रमाण'
+                : 'दर्ज किया गया दृश्य',
+
+          description:
+            evidence.description ||
+            `Photographic documentation of Sheesh Mahal from ${evidence.year}.`,
+
+          badge: isReference
+            ? 'ACTIVE REFERENCE'
+            : isLatest
+              ? 'RECENT EVIDENCE'
+              : 'HISTORICAL CONTEXT',
+
+          type: isReference ? 'reference' : 'historical',
+
+          source: evidence.sourceType || 'Temporal Evidence',
+
+          author: evidence.author,
+          license: evidence.license,
+          sourceUrl: evidence.sourceUrl,
+          captureDate: evidence.captureDate,
+          s3Key: evidence.s3Key,
+
+          isReference,
+          isLatest,
+        };
+      });
+
+      setTimelineItems(mappedItems);
+    } catch (error) {
+      console.error('Temporal evidence loading error:', error);
+
+      if (!cancelled) {
+        setTemporalError(
+          error.message || 'Unable to load temporal evidence.'
+        );
+
+        // Preserve the existing UI if the API fails
+        setTimelineItems(referenceData.timelineItems || []);
+      }
+    } finally {
+      if (!cancelled) {
+        setTemporalLoading(false);
+      }
+    }
+  }
+
+  loadTemporalEvidence();
+
+  return () => {
+    cancelled = true;
+  };
+}, [elementId, referenceData.monumentId]);
 
   // Modals state
   const [selectedStoryItem, setSelectedStoryItem] = useState(null);
@@ -134,24 +241,46 @@ export default function VisualTimeline({ elementId = 'SM-01' }) {
         <OrnamentDivider className="my-6" />
 
         {/* Conceptual Distinction Bridge */}
-        <div className="hidden sm:flex items-center justify-center gap-3 text-xs font-mono text-stone-500 pt-2">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5EFE6] border border-[#C89D66]/30">
-            <span className="font-bold text-[#1F1813]">PAST</span>
-            <span className="text-[#996515] font-sans">1950 &bull; 2000</span>
-          </div>
-          <span className="text-[#C5A059]">&rarr;</span>
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1F1813] text-[#E9D7A5] border border-[#C5A059]/40 shadow-sm">
-            <span className="font-bold">RECENT BASELINE</span>
-            <span className="text-[#C5A059]">2021 Reference</span>
-          </div>
-          <span className="text-[#C5A059]">&rarr;</span>
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
-            <span className="font-bold">PRESENT</span>
-            <span className="text-stone-700 font-sans">Visitor Capture</span>
-          </div>
-        </div>
-      </div>
+       <div className="hidden sm:flex items-center justify-center gap-3 text-xs font-mono text-stone-500 pt-2">
 
+  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5EFE6] border border-[#C89D66]/30">
+    <span className="font-bold text-[#1F1813]">HISTORICAL</span>
+    <span className="text-[#996515] font-sans">2010 • 2015 • 2019</span>
+  </div>
+
+  <span className="text-[#C5A059]">→</span>
+
+  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1F1813] text-[#E9D7A5] border border-[#C5A059]/40 shadow-sm">
+    <span className="font-bold">REFERENCE</span>
+    <span className="text-[#C5A059]">2021</span>
+  </div>
+
+  <span className="text-[#C5A059]">→</span>
+
+  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
+    <span className="font-bold">RECENT</span>
+    <span className="text-stone-700 font-sans">2026 Evidence</span>
+  </div>
+
+</div>
+      </div>
+ 
+ {temporalLoading && (
+  <div className="max-w-6xl mx-auto text-center py-8">
+    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#F5EFE6] border border-[#C89D66]/30 text-xs font-mono text-[#996515]">
+      <Clock size={13} className="animate-pulse" />
+      Loading temporal evidence...
+    </div>
+  </div>
+)}
+
+{temporalError && (
+  <div className="max-w-6xl mx-auto text-center">
+    <p className="text-xs text-stone-500">
+      Showing the available heritage record while temporal evidence reconnects.
+    </p>
+  </div>
+)}
       {/* ============================================================ */}
       {/* 3 PHOTOGRAPHIC CARDS: 1950 | 2000 | 2021                    */}
       {/* ============================================================ */}
@@ -363,7 +492,7 @@ export default function VisualTimeline({ elementId = 'SM-01' }) {
               संदर्भ और वर्तमान
             </p>
             <p className="text-xs sm:text-sm text-[#5C5042] max-w-xl mx-auto">
-              Compare your current visitor capture against the standardized <strong>2021 Reference</strong> before triggering cloud visual feature analysis.
+Compare your current observation against the standardized <strong>2021 Reference</strong> before triggering cloud visual feature analysis.
             </p>
           </div>
 
@@ -371,15 +500,18 @@ export default function VisualTimeline({ elementId = 'SM-01' }) {
           <div className="space-y-3">
             <div className="flex justify-between items-center text-xs font-mono text-stone-600">
               <span className="font-bold text-[#996515]">LEFT: 2021 Reference</span>
-              <span className="font-bold text-amber-800">RIGHT: TODAY Visitor Capture</span>
+              <span className="font-bold text-amber-800">RIGHT: TODAY Observation</span>
             </div>
 
             <ImageComparison
-              beforeImage={referenceItem2021.image}
-              afterImage={capturedPreview}
-              beforeLabel="2021 Active Reference"
-              afterLabel="Today Visitor Capture"
-            />
+  beforeImage={
+    referenceItem2021?.image ||
+    referenceData.timelineItems?.find((item) => Number(item.year) === 2021)?.image
+  }
+  afterImage={capturedPreview}
+  beforeLabel="2021 Active Reference"
+  afterLabel="Today Observation"
+/>
           </div>
 
           {uploadError && (
