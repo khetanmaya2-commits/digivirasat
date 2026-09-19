@@ -196,9 +196,6 @@ AI supports the observation process, while conservation decisions remain with hu
 
 ### Methodological Integrity
 
-```md
-## Methodological Integrity
-
 DigiVirasat does not treat detected visual differences as confirmed damage, deterioration, or structural change.
 
 Visual differences can result from:
