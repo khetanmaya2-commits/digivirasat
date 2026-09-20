@@ -131,6 +131,21 @@ Conservation Dashboard
 
 ```
 
+### Live Demo
+
+🌐 **Production Website:**  
+https://main.d2p8gkcw43f4kv.amplifyapp.com
+
+### Conservation Dashboard Demo
+
+The conservation dashboard is protected using Amazon Cognito.
+
+**Demo Email:** `judge@digivirasat.in`
+
+**Demo Password:** `DigiVirasat@2026Demo!`
+
+> Demo credentials are provided exclusively for project evaluation.
+
 ## AWS Services
 
 1. **Amazon S3**: Private storage for heritage photographs and temporal evidence.
