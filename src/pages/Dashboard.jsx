@@ -490,8 +490,8 @@ export default function Dashboard() {
               </p>
 
               <p className="text-sm text-stone-600 mt-3 max-w-2xl leading-relaxed">
-                Automated comparisons across available photographic evidence help
-                identify visual variation over time for remote conservation review.
+                 DigiVirasat compares the available photographic evidence in chronological
+  order, generating consecutive temporal comparisons for remote conservation review.
               </p>
             </div>
 
@@ -776,9 +776,9 @@ export default function Dashboard() {
                   {latestAvailableYear
                     ? `The latest available photographic evidence is currently ${latestAvailableYear}.`
                     : 'No temporal evidence is currently available.'}{' '}
-                  When a new validated observation becomes available, it can become the
-                  next temporal comparison without requiring a code or year-specific
-                  update to the system.
+                  New evidence can be added with its year and metadata. When the temporal
+    analysis is run again, the system automatically incorporates the newly
+    available record into the chronological comparison sequence.
                 </div>
               </div>
             </>
@@ -791,7 +791,9 @@ export default function Dashboard() {
         <div className="p-4 rounded-2xl bg-[#C5A059]/15 border border-[#C5A059]/40 flex items-start gap-3 text-xs text-[#7D5220]">
           <ShieldAlert size={20} className="text-[#996515] flex-shrink-0 mt-0.5" />
           <div className="leading-relaxed">
-            <strong className="font-semibold text-[#1F1813]">Conservation Advisory &bull; क्षेत्र सत्यापन अनुशंसित:</strong> Computer vision indicators highlight micro-surface deviations between photographic exposures. Ground inspection, photometric calibration, and microscopic mortar assessment are mandatory prior to any physical preservation work.
+            <strong className="font-semibold text-[#1F1813]"></strong>{` `}Detected visual-category differences should be reviewed using comparable
+photographic evidence before drawing conservation conclusions. The system
+does not independently confirm physical deterioration, damage, or structural change.
           </div>
         </div>
 
@@ -1010,10 +1012,10 @@ export default function Dashboard() {
             <div className="p-6 rounded-2xl bg-[#1F1813] text-white border border-[#C5A059]/40 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs uppercase tracking-widest text-[#E9D7A5] font-mono">Primary Demo</span>
-                <span className="px-2 py-0.5 rounded bg-[#C5A059]/20 text-[#E9D7A5] text-[10px]">2016 Reference Active</span>
+                <span className="px-2 py-0.5 rounded bg-[#C5A059]/20 text-[#E9D7A5] text-[10px]"> Temporal Evidence Active</span>
               </div>
               <h4 className="text-lg font-serif font-bold text-white">East Mirror Wall (SM-01)</h4>
-              <p className="text-xs text-stone-300">Sheesh Mahal &bull; 1950 &bull; 2009 &bull; 2016 Baseline</p>
+              <p className="text-xs text-stone-300"> Sheesh Mahal &bull; Multi-Year Photographic Evidence</p>
               <div className="pt-2 flex items-center gap-2">
                 <Link
                   to="/monument/amer-fort/element/SM-01"
@@ -1325,14 +1327,14 @@ export default function Dashboard() {
                     </p>
 
                     <p className="text-xs text-[#D8C6A5] mt-1">
-                      AI-assisted interpretation of the detected visual evidence
+                       Interpretation of detected visual-category differences
                     </p>
                   </div>
                 </div>
 
                 <p className="text-sm text-[#F5EFE6] leading-relaxed mt-5 whitespace-pre-line">
                   {selectedTemporalAnalysis.preservationInsight ||
-                    'No Gemini insight is available for this comparison.'}
+                    'No comparison interpretation is available for this period.'}
                 </p>
 
               </div>
